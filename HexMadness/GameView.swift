@@ -17,8 +17,8 @@ struct GameView: View {
         GeometryReader { geo in
             ZStack {
                 ForEach (self.hexes, id: \.self) { hex in
-                    //HexView(row: hex.row, column: hex.column)
-                    Text("\(hex.row) \(hex.column)")
+                    HexView(row: hex.row, column: hex.column)
+                    //Text("\(hex.row) \(hex.column)")
                     .frame(width: geo.size.width / CGFloat(GameSize.columns), height: geo.size.height / CGFloat(GameSize.rows))
                     .offset( x: GameSize.hexX(width: geo.size.width, column: hex.column), y: GameSize.hexY(height: geo.size.height, row: hex.row, column: hex.column))
                 }
