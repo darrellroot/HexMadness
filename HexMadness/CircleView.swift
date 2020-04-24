@@ -23,26 +23,12 @@ struct CircleView: View {
                 Text("\(self.column) \(self.row)")
             }
             .frame(width: geo.size.width / CGFloat(GameSize.columns), height: geo.size.height / CGFloat(GameSize.rows))
-            .offset( x: self.hexX(width: geo.size.width, column: self.column), y: self.hexY(height: geo.size.height, row: self.row, column: self.column))
+            .offset( x: GameSize.hexX(width: geo.size.width, column: self.column), y: GameSize.hexY(height: geo.size.height, row: self.row, column: self.column))
             .onTapGesture {
                 self.row = Int.random(in: 0..<GameSize.rows)
                 self.column = Int.random(in: 0..<GameSize.columns)
             }
             .animation(.linear)
-        }
-    }
-    func hexX(width: CGFloat, column: Int) -> CGFloat {
-        let width = Int(width)
-        let columnWidth = width / GameSize.columns
-        return  (CGFloat(column) - GameSize.centerColumn) * CGFloat(columnWidth) + CGFloat(columnWidth) * 0.5
-    }
-    func hexY(height: CGFloat, row: Int, column: Int) -> CGFloat {
-        let height = Int(height)
-        let rowHeight = height / GameSize.rows
-        if  column % 2 == 0 {
-            return (CGFloat(row) - GameSize.centerRow) * CGFloat(rowHeight)
-        } else {
-            return (CGFloat(row) - GameSize.centerRow) * CGFloat(rowHeight) - CGFloat(rowHeight) / 2
         }
     }
 }
