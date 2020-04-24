@@ -11,7 +11,7 @@ import SwiftUI
 
 class GameSize: ObservableObject {
     static let rows = 9 // must be odd
-    static let columns = 7 // must be odd
-    static let centerColumn = GameSize.columns / 2 // automatically rounds down
-    static let centerRow = GameSize.rows / 2 // automaticaly rounds down
+    static let columns = 8 // must be odd
+    static let centerColumn = CGFloat(GameSize.columns) / 2 // automatically rounds down
+    static let centerRow = CGFloat(GameSize.rows) / 2 // automaticaly rounds down
 }

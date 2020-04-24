@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct GameView: View {
-    @State var circles: [CircleModel] = [CircleModel(row: 0, column: 0),CircleModel(row: 0, column: 1)]
+    @State var circles: [CircleModel] = []
     
     var body: some View {
         GeometryReader { geo in
@@ -20,7 +20,6 @@ struct GameView: View {
                     
                 }
             }
-            
             
         }.onAppear {
         //init() {
