@@ -8,9 +8,14 @@
 
 import Foundation
 
-struct CircleModel: Hashable {
+class CircleModel {
     var row: Int
     var column: Int
+    let color = GameColor.allCases.randomElement()
     let id = UUID()
-    //var color:
+    
+    init(row: Int, column: Int) {
+        self.row = row
+        self.column = column
+    }
 }

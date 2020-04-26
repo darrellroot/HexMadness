@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var gameModel: GameModel
+    
     var body: some View {
         NavigationView {
             VStack {
