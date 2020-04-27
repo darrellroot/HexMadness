@@ -25,7 +25,8 @@ struct GameView: View {
                     .offset( x: GameModel.hexX(width: geo.size.width, column: hex.column), y: GameModel.hexY(height: geo.size.height, row: hex.row, column: hex.column))
                 }
                 ForEach (self.gameModel.circles, id: \.self.id) { circle in
-                    CircleView(row: circle.row, column: circle.column, color: Color.blue)
+                    //CircleView(row: circle.row, column: circle.column, color: Color.blue)
+                    CircleView(circle: circle)
                     
                 }
             }
@@ -39,9 +40,10 @@ struct GameView: View {
             }
 
             for _ in 0 ..< 6 {
-                let row = Int.random(in: 0..<GameModel.rows)
+                self.gameModel.addCircle()
+                /*let row = Int.random(in: 0..<GameModel.rows)
                 let column = Int.random(in: 0..<GameModel.columns)
-                self.gameModel.circles.append(CircleModel(row: row, column: column))
+                self.gameModel.circles.append(CircleModel(row: row, column: column))*/
             }
         }
     }

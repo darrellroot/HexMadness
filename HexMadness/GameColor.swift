@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum GameColor: Int, CaseIterable {
     case red = 0
@@ -22,23 +23,23 @@ enum GameColor: Int, CaseIterable {
         return max
     }()
 }
-/*extension GameColor {
-    var colorValue: UIColor {
+extension GameColor {
+    var color: Color {
         get {
             switch self {
             case .red:
-                return UIColor.red
+                return Color.red
             case .blue:
-                return UIColor.blue
+                return Color.blue
             case .green:
-                return UIColor.green
+                return Color.green
             case .orange:
-                return UIColor.orange
+                return Color.orange
             case .yellow:
-                return UIColor.yellow
+                return Color.yellow
             case .purple:
-                return UIColor.purple
+                return Color.purple
             }
          }
     }
-}*/
+}

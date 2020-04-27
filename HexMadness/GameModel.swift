@@ -21,9 +21,11 @@ class GameModel: ObservableObject {
         circles = []
     }
     func addCircle() {
-        
+        let row = Int.random(in: 0..<GameModel.rows)
+        let column = Int.random(in: 0..<GameModel.columns)
+        let circle = CircleModel(row: row, column: column)
+        self.circles.append(circle)
     }
-    
     
     static func hexX(width: CGFloat, column: Int) -> CGFloat {
         let width = Int(width)

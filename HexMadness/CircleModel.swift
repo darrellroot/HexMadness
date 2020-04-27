@@ -8,10 +8,10 @@
 
 import Foundation
 
-class CircleModel {
-    var row: Int
-    var column: Int
-    let color = GameColor.allCases.randomElement()
+class CircleModel: ObservableObject {
+    @Published var row: Int
+    @Published var column: Int
+    let color = GameColor.allCases.randomElement()!
     let id = UUID()
     
     init(row: Int, column: Int) {
