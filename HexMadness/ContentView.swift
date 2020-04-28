@@ -16,7 +16,7 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 Text("Hex Madness!").font(.largeTitle)
-                NavigationLink("New Game", destination: GameView())
+                NavigationLink("New Game", destination: ScreenView())
             }
         }//navigationView
             .navigationViewStyle(StackNavigationViewStyle())

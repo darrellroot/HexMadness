@@ -12,19 +12,47 @@ import SwiftUI
 class GameModel: ObservableObject {
     @Published var circles: [CircleModel]
     
+    public var pressedCircle: CircleModel?
+    
     static let rows = 9 // must be odd
     static let columns = 8 // must be odd
     static let centerColumn = CGFloat(columns) / 2 // automatically rounds down
     static let centerRow = CGFloat(rows) / 2 // automaticaly rounds down
 
+    func occupied(row: Int, column: Int) -> Bool {
+        for circle in circles {
+            if circle.row == row && circle.column == column {
+                return true
+            }
+        }
+        return false
+    }
     init() {
         circles = []
     }
     func addCircle() {
-        let row = Int.random(in: 0..<GameModel.rows)
-        let column = Int.random(in: 0..<GameModel.columns)
-        let circle = CircleModel(row: row, column: column)
-        self.circles.append(circle)
+        //try 1000 times to add a circle
+        // if that fails, we assume board is full and game over
+        var row: Int = 0
+        var column: Int = 0
+        var added = false
+        for _ in 0 ..< 1000 {
+            row = Int.random(in: 0..<GameModel.rows)
+            column = Int.random(in: 0..<GameModel.columns)
+            if !occupied(row: row, column: column) {
+                added = true
+                break
+            }
+        }
+        if !added {
+            gameOver()
+        } else {
+            let circle = CircleModel(row: row, column: column)
+            self.circles.append(circle)
+        }
+    }
+    func gameOver() {
+        debugPrint("Game Over")
     }
     
     static func hexX(width: CGFloat, column: Int) -> CGFloat {
@@ -36,10 +64,11 @@ class GameModel: ObservableObject {
         let height = Int(height)
         let rowHeight = height / GameModel.rows
         if  column % 2 == 0 {
-            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight)
+            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) + CGFloat(rowHeight) / 2
         } else {
-            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) - CGFloat(rowHeight) / 2
+            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) + CGFloat(rowHeight)
         }
     }
+    
 
 }
