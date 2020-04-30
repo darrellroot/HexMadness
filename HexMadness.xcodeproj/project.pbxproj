@@ -12,6 +12,7 @@
 		2F4A44E12457BFDE00E6D790 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECC2455132B00AF5C0F /* GameModel.swift */; };
 		2F4A44E22457C01900E6D790 /* CircleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9933B123A098DF0058290F /* CircleModel.swift */; };
 		2F4A44E32457C02600E6D790 /* GameColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECE24551A4E00AF5C0F /* GameColor.swift */; };
+		2F4A44E4245A585000E6D790 /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECA24529C7D00AF5C0F /* Hex.swift */; };
 		2F4C8EC9245299A300AF5C0F /* HexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8EC8245299A300AF5C0F /* HexView.swift */; };
 		2F4C8ECB24529C7D00AF5C0F /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECA24529C7D00AF5C0F /* Hex.swift */; };
 		2F4C8ECD2455132B00AF5C0F /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECC2455132B00AF5C0F /* GameModel.swift */; };
@@ -236,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F4A44E22457C01900E6D790 /* CircleModel.swift in Sources */,
+				2F4A44E4245A585000E6D790 /* Hex.swift in Sources */,
 				2F4A44DA2457BFA800E6D790 /* HexMadnessTests.swift in Sources */,
 				2F4A44E12457BFDE00E6D790 /* GameModel.swift in Sources */,
 				2F4A44E32457C02600E6D790 /* GameColor.swift in Sources */,

@@ -11,4 +11,8 @@ import Foundation
 struct Hex: Hashable {
     let row: Int
     let column: Int
+    
+    var allAdjacent: Set<Hex> {
+        return GameModel.allAdjacent(row: self.row, column: self.column)
+    }
 }

@@ -19,6 +19,22 @@ class GameModel: ObservableObject {
     static let centerColumn = CGFloat(columns) / 2 // automatically rounds down
     static let centerRow = CGFloat(rows) / 2 // automaticaly rounds down
 
+    func circle(row: Int, column: Int) -> CircleModel? {
+        for circle in circles {
+            if circle.row == row && circle.column == column {
+                return circle
+            }
+        }
+        return nil
+    }
+    func circle(hex: Hex) -> CircleModel? {
+        for circle in circles {
+            if circle.row == hex.row && circle.column == hex.column {
+                return circle
+            }
+        }
+        return nil
+    }
     func occupied(row: Int, column: Int) -> Bool {
         for circle in circles {
             if circle.row == row && circle.column == column {
@@ -37,19 +53,77 @@ class GameModel: ObservableObject {
             self.addCircle()
         }
     }
+    static func allAdjacent(row: Int, column: Int) -> Set<Hex> {
+    var adjacentHexes: Set<Hex> = []
+        for candidateRow in 0 ..< GameModel.rows {
+            for candidateColumn in 0 ..< GameModel.columns {
+                if GameModel.adjacent(lrow: candidateRow, lcolumn: candidateColumn, rrow: row, rcolumn: column) {
+                    let adjacentHex = Hex(row: candidateRow, column: candidateColumn)
+                    adjacentHexes.insert(adjacentHex)
+                }
+            }
+        }
+        return adjacentHexes
+    }
+    
+    func testForWin(pressedCircle: CircleModel) -> Bool {
+        var winningCircles: [CircleModel] = [pressedCircle]
+        var winningHexes: Set<Hex> = [pressedCircle.hex]
+        var candidateHexes: Set<Hex> = [pressedCircle.hex]
+        var analyzedHexes: Set<Hex> = [pressedCircle.hex]
+        let pressedHex = Hex(row: pressedCircle.row, column: pressedCircle.column)
+        while candidateHexes.count > 0 {
+            let thisHex = candidateHexes.first!
+            let adjacentHexes = thisHex.allAdjacent
+            for adjacentHex in adjacentHexes {
+                if !analyzedHexes.contains(adjacentHex) {
+                    analyzedHexes.insert(adjacentHex)
+                    if let adjacentCircle = circle(hex: adjacentHex), adjacentCircle.color == pressedCircle.color {
+                        winningHexes.insert(adjacentHex)
+                        winningCircles.append(adjacentCircle)
+                        candidateHexes.insert(adjacentHex)
+                    }
+                } else {
+                    // do nothing, neighbor hex already analyzed
+                }
+            }
+            candidateHexes.remove(thisHex)
+        }
+        debugPrint("winningCircles count \(winningCircles.count)")
+        if winningCircles.count >= 6 {
+            debugPrint("you won!")
+            for circle in winningCircles {
+                if let index = circles.index(of: circle) {
+                    circles.remove(at: index)
+                } else {
+                    debugPrint("unexpected remove error")
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
     func move(row: Int, column: Int) {
-        if pressedCircle != nil {
+        if let pressedCircle = pressedCircle {
             self.score += 1
             self.pressedCircle?.row = row
             self.pressedCircle?.column = column
             self.pressedCircle = nil
             let newCircles = Int.random(in: 3..<5)
-            for _ in 0..<newCircles {
-                self.addCircle()
+            if testForWin(pressedCircle: pressedCircle) {
+                // do nothing
+            } else {
+                // add circles
+                for _ in 0..<newCircles {
+                    self.addCircle()
+                }
+                
             }
+            
         }
     }
-    func adjacent(lrow: Int, lcolumn: Int, rrow: Int, rcolumn: Int) -> Bool {
+    static func adjacent(lrow: Int, lcolumn: Int, rrow: Int, rcolumn: Int) -> Bool {
         if abs(lrow - rrow) >= 2 {
             return false
         }
@@ -94,6 +168,7 @@ class GameModel: ObservableObject {
         } else {
             let circle = CircleModel(row: row, column: column)
             self.circles.append(circle)
+            self.testForWin(pressedCircle: circle)
         }
     }
     func gameOver() {

@@ -8,12 +8,23 @@
 
 import Foundation
 
-class CircleModel: ObservableObject {
+class CircleModel: ObservableObject, Equatable {
+    static func == (lhs: CircleModel, rhs: CircleModel) -> Bool {
+        if lhs.row == rhs.row && lhs.column == rhs.column && lhs.color == rhs.color {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     @Published var row: Int
     @Published var column: Int
     let color = GameColor.allCases.randomElement()!
     let id = UUID()
     
+    var hex: Hex {
+        return Hex(row: self.row, column: self.column)
+    }
     init(row: Int, column: Int) {
         self.row = row
         self.column = column
