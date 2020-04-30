@@ -31,11 +31,6 @@ struct CircleView: View {
             }
             .frame(width: geo.size.width / CGFloat(GameModel.columns), height: geo.size.height / CGFloat(GameModel.rows))
             .offset( x: GameModel.hexX(width: geo.size.width, column: self.circle.column), y: GameModel.hexY(height: geo.size.height, row: self.circle.row, column: self.circle.column))
-            /*.onTapGesture {
-                debugPrint("circle.tap")
-                self.circle.row = Int.random(in: 0..<GameModel.rows)
-                self.circle.column = Int.random(in: 0..<GameModel.columns)
-            }*/
             .animation(.linear)
         }
     }

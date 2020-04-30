@@ -36,9 +36,7 @@ struct HexView: View {
             .contentShape(Circle())
             .onTapGesture {
                 debugPrint("hex row \(self.row) column \(self.column) tapped")
-                self.gameModel.pressedCircle?.row = self.row
-                self.gameModel.pressedCircle?.column = self.column
-                self.gameModel.pressedCircle = nil
+                self.gameModel.move(row: self.row, column: self.column)
             }
 
         }

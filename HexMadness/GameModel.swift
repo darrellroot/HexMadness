@@ -11,7 +11,7 @@ import SwiftUI
 
 class GameModel: ObservableObject {
     @Published var circles: [CircleModel]
-    
+    @Published var score: Int = 0
     public var pressedCircle: CircleModel?
     
     static let rows = 9 // must be odd
@@ -29,6 +29,51 @@ class GameModel: ObservableObject {
     }
     init() {
         circles = []
+    }
+    func newGame() {
+        self.circles = []
+        self.score = 0
+        for _ in 0 ..< 6 {
+            self.addCircle()
+        }
+    }
+    func move(row: Int, column: Int) {
+        if pressedCircle != nil {
+            self.score += 1
+            self.pressedCircle?.row = row
+            self.pressedCircle?.column = column
+            self.pressedCircle = nil
+            let newCircles = Int.random(in: 3..<5)
+            for _ in 0..<newCircles {
+                self.addCircle()
+            }
+        }
+    }
+    func adjacent(lrow: Int, lcolumn: Int, rrow: Int, rcolumn: Int) -> Bool {
+        if abs(lrow - rrow) >= 2 {
+            return false
+        }
+        if abs(lcolumn - rcolumn) >= 2 {
+            return false
+        }
+        if lrow == rrow && lcolumn == rcolumn {
+            return false
+        }
+        // 2 cases
+        if lcolumn == rcolumn && abs(lrow - rrow) == 1 {
+            return true
+        }
+        // 2 cases
+        if lrow == rrow && abs(lcolumn - rcolumn) == 1 {
+            return true
+        }
+        if lcolumn % 2 == 0 && rcolumn % 2 == 1 && abs(lcolumn - rcolumn) == 1 && lrow == rrow - 1 {
+            return true
+        }
+        if lcolumn % 2 == 1 && rcolumn % 2 == 0 && abs(lcolumn - rcolumn) == 1 && lrow == rrow - 1 {
+            return true
+        }
+        return false
     }
     func addCircle() {
         //try 1000 times to add a circle

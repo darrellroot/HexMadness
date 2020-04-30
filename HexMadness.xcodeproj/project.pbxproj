@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2F4A44D0245779F800E6D790 /* ScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4A44CF245779F800E6D790 /* ScreenView.swift */; };
+		2F4A44DA2457BFA800E6D790 /* HexMadnessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4A44D92457BFA800E6D790 /* HexMadnessTests.swift */; };
+		2F4A44E12457BFDE00E6D790 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECC2455132B00AF5C0F /* GameModel.swift */; };
+		2F4A44E22457C01900E6D790 /* CircleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9933B123A098DF0058290F /* CircleModel.swift */; };
+		2F4A44E32457C02600E6D790 /* GameColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECE24551A4E00AF5C0F /* GameColor.swift */; };
 		2F4C8EC9245299A300AF5C0F /* HexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8EC8245299A300AF5C0F /* HexView.swift */; };
 		2F4C8ECB24529C7D00AF5C0F /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECA24529C7D00AF5C0F /* Hex.swift */; };
 		2F4C8ECD2455132B00AF5C0F /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECC2455132B00AF5C0F /* GameModel.swift */; };
@@ -23,8 +27,21 @@
 		2F9933B623A0A1390058290F /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9933B523A0A1390058290F /* CircleView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2F4A44DC2457BFA800E6D790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F993390239D9EC60058290F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2F993397239D9EC60058290F;
+			remoteInfo = HexMadness;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2F4A44CF245779F800E6D790 /* ScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenView.swift; sourceTree = "<group>"; };
+		2F4A44D72457BFA800E6D790 /* HexMadnessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HexMadnessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F4A44D92457BFA800E6D790 /* HexMadnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexMadnessTests.swift; sourceTree = "<group>"; };
+		2F4A44DB2457BFA800E6D790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F4C8EC8245299A300AF5C0F /* HexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexView.swift; sourceTree = "<group>"; };
 		2F4C8ECA24529C7D00AF5C0F /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
 		2F4C8ECC2455132B00AF5C0F /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
@@ -43,6 +60,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2F4A44D42457BFA800E6D790 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F993395239D9EC60058290F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -53,10 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F4A44D82457BFA800E6D790 /* HexMadnessTests */ = {
+			isa = PBXGroup;
+			children = (
+				2F4A44D92457BFA800E6D790 /* HexMadnessTests.swift */,
+				2F4A44DB2457BFA800E6D790 /* Info.plist */,
+			);
+			path = HexMadnessTests;
+			sourceTree = "<group>";
+		};
 		2F99338F239D9EC60058290F = {
 			isa = PBXGroup;
 			children = (
 				2F99339A239D9EC60058290F /* HexMadness */,
+				2F4A44D82457BFA800E6D790 /* HexMadnessTests */,
 				2F993399239D9EC60058290F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				2F993398239D9EC60058290F /* HexMadness.app */,
+				2F4A44D72457BFA800E6D790 /* HexMadnessTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,6 +137,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2F4A44D62457BFA800E6D790 /* HexMadnessTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F4A44DE2457BFA800E6D790 /* Build configuration list for PBXNativeTarget "HexMadnessTests" */;
+			buildPhases = (
+				2F4A44D32457BFA800E6D790 /* Sources */,
+				2F4A44D42457BFA800E6D790 /* Frameworks */,
+				2F4A44D52457BFA800E6D790 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2F4A44DD2457BFA800E6D790 /* PBXTargetDependency */,
+			);
+			name = HexMadnessTests;
+			productName = HexMadnessTests;
+			productReference = 2F4A44D72457BFA800E6D790 /* HexMadnessTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		2F993397239D9EC60058290F /* HexMadness */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2F9933AC239D9EC70058290F /* Build configuration list for PBXNativeTarget "HexMadness" */;
@@ -125,10 +178,14 @@
 		2F993390239D9EC60058290F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1120;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Darrell Root";
 				TargetAttributes = {
+					2F4A44D62457BFA800E6D790 = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = 2F993397239D9EC60058290F;
+					};
 					2F993397239D9EC60058290F = {
 						CreatedOnToolsVersion = 11.2.1;
 					};
@@ -148,11 +205,19 @@
 			projectRoot = "";
 			targets = (
 				2F993397239D9EC60058290F /* HexMadness */,
+				2F4A44D62457BFA800E6D790 /* HexMadnessTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2F4A44D52457BFA800E6D790 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F993396239D9EC60058290F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,6 +231,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2F4A44D32457BFA800E6D790 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F4A44E22457C01900E6D790 /* CircleModel.swift in Sources */,
+				2F4A44DA2457BFA800E6D790 /* HexMadnessTests.swift in Sources */,
+				2F4A44E12457BFDE00E6D790 /* GameModel.swift in Sources */,
+				2F4A44E32457C02600E6D790 /* GameColor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2F993394239D9EC60058290F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +262,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2F4A44DD2457BFA800E6D790 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2F993397239D9EC60058290F /* HexMadness */;
+			targetProxy = 2F4A44DC2457BFA800E6D790 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		2F9933A6239D9EC70058290F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -198,6 +282,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2F4A44DF2457BFA800E6D790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HexMadnessTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = training.networkmom.HexMadnessTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HexMadness.app/HexMadness";
+			};
+			name = Debug;
+		};
+		2F4A44E02457BFA800E6D790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HexMadnessTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = training.networkmom.HexMadnessTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HexMadness.app/HexMadness";
+			};
+			name = Release;
+		};
 		2F9933AA239D9EC70058290F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -355,6 +479,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2F4A44DE2457BFA800E6D790 /* Build configuration list for PBXNativeTarget "HexMadnessTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F4A44DF2457BFA800E6D790 /* Debug */,
+				2F4A44E02457BFA800E6D790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2F993393239D9EC60058290F /* Build configuration list for PBXProject "HexMadness" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

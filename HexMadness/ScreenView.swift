@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct ScreenView: View {
+    @EnvironmentObject var gameModel: GameModel
+
     var body: some View {
         VStack {
-            Text("Score")
-            //Text("score 2")
+            Text("Score: \(gameModel.score)")
             GameView()
         }
     }
