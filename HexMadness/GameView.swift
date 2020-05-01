@@ -27,6 +27,10 @@ struct GameView: View {
                 ForEach (self.gameModel.circles, id: \.self.id) { circle in
                     CircleView(circle: circle)
                 }
+                ForEach (self.gameModel.deletedCircles, id: \.self.id) {
+                    deletedCircle in
+                    CircleFadeView(circle: deletedCircle)
+                }
             }
         }.onAppear {
             for row in 0 ..< GameModel.rows {

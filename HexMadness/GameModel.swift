@@ -11,6 +11,7 @@ import SwiftUI
 
 class GameModel: ObservableObject {
     @Published var circles: [CircleModel]
+    @Published var deletedCircles: [CircleModel] = []
     @Published var score: Int = 0
     @Published var gameComplete = false {
         didSet {
@@ -33,7 +34,7 @@ class GameModel: ObservableObject {
     static let columns = 8 // must be odd
     static let centerColumn = CGFloat(columns) / 2 // automatically rounds down
     static let centerRow = CGFloat(rows) / 2 // automaticaly rounds down
-
+    
     func circle(row: Int, column: Int) -> CircleModel? {
         for circle in circles {
             if circle.row == row && circle.column == column {
@@ -69,7 +70,7 @@ class GameModel: ObservableObject {
         }
     }
     static func allAdjacent(row: Int, column: Int) -> Set<Hex> {
-    var adjacentHexes: Set<Hex> = []
+        var adjacentHexes: Set<Hex> = []
         for candidateRow in 0 ..< GameModel.rows {
             for candidateColumn in 0 ..< GameModel.columns {
                 if GameModel.adjacent(lrow: candidateRow, lcolumn: candidateColumn, rrow: row, rcolumn: column) {
@@ -108,12 +109,16 @@ class GameModel: ObservableObject {
         if winningCircles.count >= 6 {
             debugPrint("you won!")
             for circle in winningCircles {
-                if let index = circles.index(of: circle) {
-                    circles.remove(at: index)
-                    self.score = self.score + 1
-                } else {
-                    debugPrint("unexpected remove error")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if let index = self.circles.firstIndex(of: circle) {
+                        self.circles.remove(at: index)
+                    }
+                    self.deletedCircles.append(circle)
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.deletedCircles.removeFirst()
+                }
+                self.score = self.score + 1
             }
             return true
         } else {

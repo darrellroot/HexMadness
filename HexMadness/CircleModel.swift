@@ -8,13 +8,18 @@
 
 import Foundation
 
-class CircleModel: ObservableObject, Equatable {
+class CircleModel: ObservableObject, Equatable, Hashable {
     static func == (lhs: CircleModel, rhs: CircleModel) -> Bool {
         if lhs.row == rhs.row && lhs.column == rhs.column && lhs.color == rhs.color {
             return true
         } else {
             return false
         }
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(row)
+        hasher.combine(column)
+        hasher.combine(color)
     }
     
     @Published var row: Int
