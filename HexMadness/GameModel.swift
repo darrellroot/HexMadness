@@ -12,7 +12,14 @@ import SwiftUI
 class GameModel: ObservableObject {
     @Published var circles: [CircleModel]
     @Published var score: Int = 0
-    public var pressedCircle: CircleModel?
+    public var pressedCircle: CircleModel? {
+        didSet {
+            for circle in circles {
+                circle.pressed = false
+            }
+            pressedCircle?.pressed = true
+        }
+    }
     
     static let rows = 9 // must be odd
     static let columns = 8 // must be odd
@@ -104,8 +111,34 @@ class GameModel: ObservableObject {
             return false
         }
     }
+    func testForValidMove(row: Int, column: Int) -> Bool {
+        guard let pressedCircle = pressedCircle else {
+            return false
+        }
+        var analyzedHexes: Set<Hex> = [pressedCircle.hex]
+        var candidateHexes: Set<Hex> = pressedCircle.hex.allAdjacent
+        candidateHexes: while candidateHexes.count > 0 {
+            let candidateHex = candidateHexes.removeFirst()
+            analyzedHexes.insert(candidateHex)
+            guard circle(hex: candidateHex) == nil else {
+                continue candidateHexes
+            }
+            if candidateHex.row == row && candidateHex.column == column {
+                return true
+            }
+            let newCandidates = candidateHex.allAdjacent
+            for newCandidate in newCandidates {
+                if analyzedHexes.contains(newCandidate) {
+                    // do nothing
+                } else {
+                    candidateHexes.insert(newCandidate)
+                }
+            }
+        }
+        return false
+    }
     func move(row: Int, column: Int) {
-        if let pressedCircle = pressedCircle {
+        if let pressedCircle = pressedCircle, testForValidMove(row: row, column: column) {
             self.score += 1
             self.pressedCircle?.row = row
             self.pressedCircle?.column = column

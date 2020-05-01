@@ -19,6 +19,7 @@ class CircleModel: ObservableObject, Equatable {
     
     @Published var row: Int
     @Published var column: Int
+    @Published var pressed = false
     let color = GameColor.allCases.randomElement()!
     let id = UUID()
     
