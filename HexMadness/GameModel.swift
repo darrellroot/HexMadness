@@ -12,6 +12,14 @@ import SwiftUI
 class GameModel: ObservableObject {
     @Published var circles: [CircleModel]
     @Published var score: Int = 0
+    @Published var gameComplete = false {
+        didSet {
+            if self.gameComplete == false {
+                self.newGame()
+            }
+        }
+    }
+    
     public var pressedCircle: CircleModel? {
         didSet {
             for circle in circles {
@@ -102,6 +110,7 @@ class GameModel: ObservableObject {
             for circle in winningCircles {
                 if let index = circles.index(of: circle) {
                     circles.remove(at: index)
+                    self.score = self.score + 1
                 } else {
                     debugPrint("unexpected remove error")
                 }
@@ -149,11 +158,11 @@ class GameModel: ObservableObject {
             } else {
                 // add circles
                 for _ in 0..<newCircles {
-                    self.addCircle()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.addCircle()
+                    }
                 }
-                
             }
-            
         }
     }
     static func adjacent(lrow: Int, lcolumn: Int, rrow: Int, rcolumn: Int) -> Bool {
@@ -206,6 +215,7 @@ class GameModel: ObservableObject {
     }
     func gameOver() {
         debugPrint("Game Over")
+        self.gameComplete = true
     }
     
     static func hexX(width: CGFloat, column: Int) -> CGFloat {
@@ -222,6 +232,4 @@ class GameModel: ObservableObject {
             return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) + CGFloat(rowHeight)
         }
     }
-    
-
 }

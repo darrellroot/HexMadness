@@ -13,9 +13,9 @@ struct ScreenView: View {
 
     var body: some View {
         VStack {
-            Text("Score: \(gameModel.score)")
+            //Text("Score: \(gameModel.score)")
             GameView()
-        }
+        }.navigationBarTitle("Score: \(gameModel.score)", displayMode: .inline)
     }
 }
 

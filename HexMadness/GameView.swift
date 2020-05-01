@@ -35,6 +35,8 @@ struct GameView: View {
                 }
             }
             self.gameModel.newGame()
+        }.alert(isPresented: $gameModel.gameComplete) {
+            Alert(title: Text("Game Over"), message: Text("You scored \(gameModel.score)"), dismissButton: .default(Text("New Game?")))
         }
     }
 }
