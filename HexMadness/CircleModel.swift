@@ -25,6 +25,8 @@ class CircleModel: ObservableObject, Equatable, Hashable {
     @Published var row: Int
     @Published var column: Int
     @Published var pressed = false
+    var path: [Hex]? = nil
+    
     let color = GameColor.allCases.randomElement()!
     let id = UUID()
     

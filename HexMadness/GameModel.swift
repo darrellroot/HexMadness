@@ -20,6 +20,7 @@ class GameModel: ObservableObject {
             }
         }
     }
+    var responsive = true // set to false during move to prevent race condition
     
     public var pressedCircle: CircleModel? {
         didSet {
@@ -151,21 +152,91 @@ class GameModel: ObservableObject {
         }
         return false
     }
+    func getPath(startHex: Hex, endHex: Hex) -> [Hex]? {
+        var distance: [Hex:Int] = [:]
+        distance[startHex] = 0
+        var hexesToAnalyze: [Hex] = [startHex]
+        thisHex: while let thisHex = hexesToAnalyze.first {
+            hexesToAnalyze.remove(at: 0)
+            guard let thisDistance = distance[thisHex] else {
+                continue thisHex
+            }
+            adjacentHex: for adjacentHex in thisHex.allAdjacent {
+                guard distance[adjacentHex] == nil else {
+                    continue adjacentHex
+                }
+                guard self.circle(hex: adjacentHex) == nil else {
+                    continue adjacentHex
+                }
+                distance[adjacentHex] = thisDistance + 1
+                hexesToAnalyze.append(adjacentHex)
+                if adjacentHex == endHex { // means we are done
+                    hexesToAnalyze = []
+                }
+            }
+        }
+        guard let endDistance = distance[endHex] else {
+            return nil
+        }
+        var path: [Hex] = []
+        path.append(endHex)
+        var currentHex = endHex
+        currentDistance: for currentDistance in (1...endDistance).reversed() {
+            guard distance[currentHex] == currentDistance else {
+                return nil
+            }
+            for adjacentHex in currentHex.allAdjacent {
+                if distance[adjacentHex] == currentDistance - 1 {
+                    path.append(adjacentHex)
+                    currentHex = adjacentHex
+                    if adjacentHex == startHex {
+                        return path.reversed()
+                    }
+                    continue currentDistance
+                }
+            }
+            //unexpected error got through all adjacent hexes without a match
+            return nil
+        }
+        //unexpected error
+        return nil
+    }
     func move(row: Int, column: Int) {
+        if !responsive { return }
         if let pressedCircle = pressedCircle, testForValidMove(row: row, column: column) {
             self.score += 1
-            self.pressedCircle?.row = row
-            self.pressedCircle?.column = column
-            self.pressedCircle = nil
-            let newCircles = Int.random(in: 3..<5)
-            if testForWin(pressedCircle: pressedCircle) {
-                // do nothing
+            let path = getPath(startHex: pressedCircle.hex, endHex: Hex(row: row, column: column))
+            debugPrint(path)
+            pressedCircle.path = path
+            var totalDuration: Double
+            self.responsive = false
+            if let path = path {
+                totalDuration = Double(path.count) * 0.1
+                for (position,pathElement) in path.enumerated() {
+                    if position != 0 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(position - 1)) {
+                            pressedCircle.row = pathElement.row
+                            pressedCircle.column = pathElement.column
+                        }
+                    }
+                }
             } else {
-                // add circles
-                for _ in 0..<newCircles {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                totalDuration = 0.50
+                pressedCircle.row = row
+                pressedCircle.column = column
+            }
+            self.pressedCircle = nil
+            let newCircles = Int.random(in: 3..<5) + score / 100
+            DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration) {
+                if self.testForWin(pressedCircle: pressedCircle) {
+                    self.responsive = true
+                    // do nothing
+                } else {
+                    // add circles
+                    for _ in 0..<newCircles {
                         self.addCircle()
                     }
+                    self.responsive = true
                 }
             }
         }
@@ -188,9 +259,17 @@ class GameModel: ObservableObject {
         if lrow == rrow && abs(lcolumn - rcolumn) == 1 {
             return true
         }
-        if lcolumn % 2 == 0 && rcolumn % 2 == 1 && abs(lcolumn - rcolumn) == 1 && lrow == rrow - 1 {
+        if lcolumn % 2 == 0 && rcolumn % 2 == 1 && lcolumn == rcolumn - 1 && lrow == rrow - 1 {
+            return false
+        }
+        if lcolumn % 2 == 0 && rcolumn % 2 == 1 && lcolumn == rcolumn + 1 && lrow == rrow - 1 {
+            return false
+        }
+
+        if lcolumn % 2 == 0 && rcolumn % 2 == 1 && abs(lcolumn - rcolumn) == 1 && lrow - 1 == rrow {
             return true
         }
+
         if lcolumn % 2 == 1 && rcolumn % 2 == 0 && abs(lcolumn - rcolumn) == 1 && lrow == rrow - 1 {
             return true
         }
@@ -228,13 +307,17 @@ class GameModel: ObservableObject {
         let columnWidth = width / GameModel.columns
         return  (CGFloat(column) - GameModel.centerColumn) * CGFloat(columnWidth) + CGFloat(columnWidth) * 0.5
     }
+    static func hexHeight(height: CGFloat) -> CGFloat {
+        return height / (CGFloat(GameModel.rows) + 0.5)
+    }
+    
     static func hexY(height: CGFloat, row: Int, column: Int) -> CGFloat {
-        let height = Int(height)
-        let rowHeight = height / GameModel.rows
+        //let height = Int(height)
+        let rowHeight = hexHeight(height: height)
         if  column % 2 == 0 {
-            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) + CGFloat(rowHeight) / 2
+            return (CGFloat(row) - GameModel.centerRow - 0.25) * rowHeight + CGFloat(rowHeight) / 2
         } else {
-            return (CGFloat(row) - GameModel.centerRow) * CGFloat(rowHeight) + CGFloat(rowHeight)
+            return (CGFloat(row) - GameModel.centerRow - 0.25) * rowHeight + CGFloat(rowHeight)
         }
     }
 }

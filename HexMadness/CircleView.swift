@@ -30,7 +30,7 @@ struct CircleView: View {
                 }
             }
             .frame(width: geo.size.width / CGFloat(GameModel.columns), height: geo.size.height / CGFloat(GameModel.rows))
-            .scaleEffect(self.circle.pressed ? 1.2 : 1.0)
+            .scaleEffect(self.circle.pressed ? 1.1 : 0.9)
             .animation(self.circle.pressed ? Animation.easeInOut.repeatForever() : Animation.easeInOut.repeatCount(0))
             .offset( x: GameModel.hexX(width: geo.size.width, column: self.circle.column), y: GameModel.hexY(height: geo.size.height, row: self.circle.row, column: self.circle.column))
             .animation(Animation.linear.repeatCount(1), value: self.circle.row)

@@ -8,7 +8,11 @@
 
 import Foundation
 
-struct Hex: Hashable {
+struct Hex: Hashable, CustomStringConvertible {
+    var description: String {
+        return "Hex row \(row) column \(column)"
+    }
+    
     let row: Int
     let column: Int
     

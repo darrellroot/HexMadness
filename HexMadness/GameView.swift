@@ -21,7 +21,7 @@ struct GameView: View {
                 ForEach (self.hexes, id: \.self) { hex in
                     HexView(row: hex.row, column: hex.column)
                         //Text("\(hex.row) \(hex.column)")
-                        .frame(width: geo.size.width / CGFloat(GameModel.columns), height: geo.size.height / CGFloat(GameModel.rows))
+                        .frame(width: geo.size.width / CGFloat(GameModel.columns), height: GameModel.hexHeight(height: geo.size.height))
                         .offset( x: GameModel.hexX(width: geo.size.width, column: hex.column), y: GameModel.hexY(height: geo.size.height, row: hex.row, column: hex.column))
                 }
                 ForEach (self.gameModel.circles, id: \.self.id) { circle in
