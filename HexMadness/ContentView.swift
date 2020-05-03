@@ -17,6 +17,7 @@ struct ContentView: View {
             VStack(spacing: 20) {
                 Text("Hex Madness!").font(.largeTitle)
                 NavigationLink("New Game", destination: ScreenView()).font(.title)
+                NavigationLink("How To Play", destination: HelpView()).font(.title)
             }
         }//navigationView
             .navigationViewStyle(StackNavigationViewStyle())
