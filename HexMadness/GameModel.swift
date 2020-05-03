@@ -227,7 +227,7 @@ class GameModel: ObservableObject {
             }
             self.pressedCircle = nil
             let newCircles = Int.random(in: 3..<5) + score / 100
-            DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.1) {
                 if self.testForWin(pressedCircle: pressedCircle) {
                     self.responsive = true
                     // do nothing

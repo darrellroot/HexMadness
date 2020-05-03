@@ -20,6 +20,7 @@ struct HexView: View {
     let row: Int
     let column: Int
     @EnvironmentObject var gameModel: GameModel
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         GeometryReader { geo in
@@ -32,7 +33,8 @@ struct HexView: View {
                 path.addLine(to: CGPoint(x: 0.15 * geo.size.width, y: 1.0 * geo.size.height))
                 path.addLine(to: CGPoint(x: -0.15 * geo.size.width, y: 0.5 * geo.size.height))
             }
-            .strokedPath(StrokeStyle(lineWidth: 2))
+            .stroke(self.colorScheme == .light ? GameColor.lineColorDay : GameColor.lineColorNight,lineWidth: 2)
+            //.strokedPath(StrokeStyle(lineWidth: 2))
             .contentShape(Circle())
             .onTapGesture {
                 debugPrint("hex row \(self.row) column \(self.column) tapped")

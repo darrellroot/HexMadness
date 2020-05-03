@@ -14,9 +14,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 20) {
                 Text("Hex Madness!").font(.largeTitle)
-                NavigationLink("New Game", destination: ScreenView())
+                NavigationLink("New Game", destination: ScreenView()).font(.title)
             }
         }//navigationView
             .navigationViewStyle(StackNavigationViewStyle())

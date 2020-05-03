@@ -13,7 +13,7 @@ enum GameColor: Int, CaseIterable {
     case red = 0
     case blue = 1
     case green = 2
-    case orange = 3
+    case cyan = 3
     case yellow = 4
     case purple = 5
     
@@ -22,6 +22,13 @@ enum GameColor: Int, CaseIterable {
         while let _ = GameColor(rawValue: max) { max += 1}
         return max
     }()
+    
+    static var lineColorDay: Color {
+        return Color.gray
+    }
+    static var lineColorNight: Color {
+        return Color.gray
+    }
 }
 extension GameColor {
     var color: Color {
@@ -33,8 +40,8 @@ extension GameColor {
                 return Color.blue
             case .green:
                 return Color.green
-            case .orange:
-                return Color.orange
+            case .cyan:
+                return Color(red: 0x21/256, green: 0xff/256, blue: 0xff/256)//cyan
             case .yellow:
                 return Color.yellow
             case .purple:
