@@ -9,14 +9,75 @@
 import Foundation
 import SwiftUI
 
+enum DefaultKey: String {
+    case topScores
+}
+
 class GameModel: ObservableObject {
+    let extraTestingCircles = 20 // to lose rapidly during testing
+    
+    let defaults = UserDefaults.standard
+    @Published var topScores: [Int: Int] = GameModel.getDictionary(key: DefaultKey.topScores.rawValue) { //UserDefaults.standard.object(forKey: DefaultKey.topScores.rawValue) as? [Int:Int] ?? [:] { // first int is time in seconds since reference time, second Int is score
+        didSet {
+            GameModel.saveDictionary(dict: topScores, key: DefaultKey.topScores.rawValue)
+        }
+    }
+
     @Published var circles: [CircleModel]
     @Published var deletedCircles: [CircleModel] = []
     @Published var score: Int = 0
     @Published var gameComplete = false {
         didSet {
             if self.gameComplete == false {
+                updateTopScores()
                 self.newGame()
+            }
+        }
+    }
+    @Published var newTopScore = false
+    //@Published var bestScoreEver = false
+    
+    // from https://freakycoder.com/ios-notes-29-how-to-save-dictionary-in-userdefaults-1b9abd1bf09
+    static func saveDictionary(dict: Dictionary<Int, Int>, key: String){
+         let preferences = UserDefaults.standard
+         let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: dict)
+         preferences.set(encodedData, forKey: key)
+         // Checking the preference is saved or not
+         //didSave(preferences: preferences)
+    }
+    
+    // from: https://freakycoder.com/ios-notes-29-how-to-save-dictionary-in-userdefaults-1b9abd1bf09
+    static func getDictionary(key: String) -> Dictionary<Int, Int> {
+         let preferences = UserDefaults.standard
+         if preferences.object(forKey: key) != nil{
+         let decoded = preferences.object(forKey: key)  as! Data
+         let decodedDict = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! Dictionary<Int, Int>
+                
+         return decodedDict
+       } else {
+          let emptyDict = Dictionary<Int, Int>()
+          return emptyDict
+       }
+    }
+    
+    func updateTopScores() {
+        let currentTime = Int(Date.timeIntervalSinceReferenceDate)
+        if topScores.count < 10 {
+            topScores[currentTime] = score
+            newTopScore = true
+        } else { // only keep top 10 scores
+            var lowestScoreTime = currentTime + 1
+            var lowestScore = 100000
+            for (oldScoreTime,oldScore) in topScores {
+                if oldScore < lowestScore {
+                    lowestScore = oldScore
+                    lowestScoreTime = oldScoreTime
+                }
+            }
+            if score > lowestScore {
+                topScores[lowestScoreTime] = nil
+                topScores[currentTime] = score
+                newTopScore = true
             }
         }
     }
@@ -106,7 +167,6 @@ class GameModel: ObservableObject {
             }
             candidateHexes.remove(thisHex)
         }
-        debugPrint("winningCircles count \(winningCircles.count)")
         if winningCircles.count >= 6 {
             debugPrint("you won!")
             for circle in winningCircles {
@@ -226,7 +286,7 @@ class GameModel: ObservableObject {
                 pressedCircle.column = column
             }
             self.pressedCircle = nil
-            let newCircles = Int.random(in: 3..<5) + score / 100
+            let newCircles = Int.random(in: 3..<5) + score / 100 + extraTestingCircles
             DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.1) {
                 if self.testForWin(pressedCircle: pressedCircle) {
                     self.responsive = true

@@ -14,10 +14,11 @@ struct GameView: View {
     
     //@State var circles: [CircleModel] = []
     @State var hexes: [Hex] = []
-    
+    @State private var navigateTopScores = false
     var body: some View {
         GeometryReader { geo in
             ZStack {
+                NavigationLink(destination: TopScoreView(), isActive: self.$navigateTopScores, label: {EmptyView()})
                 ForEach (self.hexes, id: \.self) { hex in
                     HexView(row: hex.row, column: hex.column)
                         //Text("\(hex.row) \(hex.column)")
@@ -40,7 +41,12 @@ struct GameView: View {
             }
             self.gameModel.newGame()
         }.alert(isPresented: $gameModel.gameComplete) {
-            Alert(title: Text("Game Over"), message: Text("You scored \(gameModel.score)"), dismissButton: .default(Text("New Game?")))
+            Alert(title: Text("Game Over"), message: Text("You scored \(gameModel.score)"), primaryButton: .default(Text("New Game")),
+                  secondaryButton: .default(Text("See Top Scores"))
+                    {
+                        self.navigateTopScores = true
+                }
+            )
         }
     }
 }

@@ -18,6 +18,7 @@ struct ContentView: View {
                 Text("Hex Madness!").font(.largeTitle)
                 NavigationLink("New Game", destination: ScreenView()).font(.title)
                 NavigationLink("How To Play", destination: HelpView()).font(.title)
+                NavigationLink("Top scores", destination: TopScoreView()).font(.title)
             }
         }//navigationView
             .navigationViewStyle(StackNavigationViewStyle())
