@@ -10,13 +10,42 @@ import SwiftUI
 
 struct TopScoreView: View {
     @EnvironmentObject var gameModel: GameModel
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    var dateFormatter = DateFormatter()
     var body: some View {
-        let scores: [Int] = gameModel.topScores.values.sorted().reversed()
-        debugPrint("scores count \(scores.count)")
-        return ForEach (scores, id: \.self) {score in
-            Text("score \(score)")
-        }.navigationBarTitle(Text("Top Scores"))
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+
+        let scoreDates: [Int] = gameModel.topScores.keys.sorted(by: {gameModel.topScores[$0]! < gameModel.topScores[$1]!}).reversed()
+        return VStack {
+            List {
+                ForEach (scoreDates, id: \.self) {scoreDate in
+                //let date = dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: Double(scoreDate)))
+                Text(verbatim: "\(self.dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: Double(scoreDate)))) \(self.gameModel.topScores[scoreDate] ?? 0)")
+                }.onDelete(perform: delete)
+            }//List
+            NavigationLink("View GameCenter Top Scores", destination: GameCenterView())
+                .font(.title)
+                .padding()
+            Button("Submit Best Score to GameCenter") {
+                if let topScore = self.gameModel.topScores.values.sorted().reversed().first {
+                    self.appDelegate.gameCenterManager.submitScoreToGC(topScore)
+                }
+            }
+            .font(.title)
+        }//VStack
+        .navigationBarTitle(Text("Top Scores"))
+        .padding()
+    }
+    
+    func delete(at offsets: IndexSet) {
+        let scoreDates: [Int] = gameModel.topScores.keys.sorted(by: {gameModel.topScores[$0]! < gameModel.topScores[$1]!}).reversed()
+        let indexes = offsets.map({$0})
+        for index in indexes.sorted().reversed() {
+            let dateToRemove = scoreDates[index]
+            gameModel.topScores[dateToRemove] = nil
+        }
     }
 }
 
