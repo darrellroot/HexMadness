@@ -23,6 +23,7 @@ class GameModel: ObservableObject {
         }
     }
 
+    @Published var nextTurnCircles: [GameColor] = []
     @Published var circles: [CircleModel]
     @Published var deletedCircles: [CircleModel] = []
     @Published var score: Int = 0
@@ -128,8 +129,12 @@ class GameModel: ObservableObject {
         self.circles = []
         self.score = 0
         for _ in 0 ..< 6 {
-            self.addCircle()
+            self.nextTurnCircles.append(GameColor.allCases.randomElement()!)
         }
+        self.addCircles()
+        /*for _ in 0 ..< 6 {
+            self.addCircle()
+        }*/
     }
     static func allAdjacent(row: Int, column: Int) -> Set<Hex> {
         var adjacentHexes: Set<Hex> = []
@@ -286,21 +291,23 @@ class GameModel: ObservableObject {
                 pressedCircle.column = column
             }
             self.pressedCircle = nil
-            let newCircles = Int.random(in: 3..<5) + score / 100 + extraTestingCircles
+            //let newCircles = Int.random(in: 3..<5) + score / 100 + extraTestingCircles
             DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration + 0.1) {
                 if self.testForWin(pressedCircle: pressedCircle) {
                     self.responsive = true
                     // do nothing
                 } else {
                     // add circles
-                    for _ in 0..<newCircles {
+                    self.addCircles()
+                    /*for _ in 0..<newCircles {
                         self.addCircle()
-                    }
+                    }*/
                     self.responsive = true
                 }
             }
         }
     }
+    
     static func adjacent(lrow: Int, lcolumn: Int, rrow: Int, rcolumn: Int) -> Bool {
         if abs(lrow - rrow) >= 2 {
             return false
@@ -335,6 +342,16 @@ class GameModel: ObservableObject {
         }
         return false
     }
+    func addCircles() {
+        for _ in 0 ..< nextTurnCircles.count {
+            addCircle()
+        }
+        nextTurnCircles = []
+        let newCircles = Int.random(in: 3..<5) + score / 100 + extraTestingCircles
+        for _ in 0 ..< newCircles {
+            nextTurnCircles.append(GameColor.allCases.randomElement()!)
+        }
+    }
     func addCircle() {
         //try 1000 times to add a circle
         // if that fails, we assume board is full and game over
@@ -349,10 +366,14 @@ class GameModel: ObservableObject {
                 break
             }
         }
-        if !added {
+        if !added || circles.count == GameModel.rows * GameModel.columns {
             gameOver()
         } else {
-            let circle = CircleModel(row: row, column: column)
+            let nextColor = nextTurnCircles.first ?? GameColor.allCases.randomElement()!
+            if nextTurnCircles.count > 0 {
+                nextTurnCircles.remove(at: 0)
+            }
+            let circle = CircleModel(row: row, column: column, color: nextColor)
             self.circles.append(circle)
             self.testForWin(pressedCircle: circle)
         }

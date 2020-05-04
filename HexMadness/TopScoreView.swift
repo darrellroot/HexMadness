@@ -25,15 +25,15 @@ struct TopScoreView: View {
                 Text(verbatim: "\(self.dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: Double(scoreDate)))) \(self.gameModel.topScores[scoreDate] ?? 0)")
                 }.onDelete(perform: delete)
             }//List
-            NavigationLink("View GameCenter Top Scores", destination: GameCenterView())
+            /*NavigationLink("View GameCenter Top Scores", destination: GameCenterView())
                 .font(.title)
-                .padding()
-            Button("Submit Best Score to GameCenter") {
+                .padding()*/
+            /*Button("Submit Best Score to GameCenter") {
                 if let topScore = self.gameModel.topScores.values.sorted().reversed().first {
                     self.appDelegate.gameCenterManager.submitScoreToGC(topScore)
                 }
             }
-            .font(.title)
+            .font(.title)*/
         }//VStack
         .navigationBarTitle(Text("Top Scores"))
         .padding()

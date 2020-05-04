@@ -27,14 +27,15 @@ class CircleModel: ObservableObject, Equatable, Hashable {
     @Published var pressed = false
     var path: [Hex]? = nil
     
-    let color = GameColor.allCases.randomElement()!
+    let color: GameColor
     let id = UUID()
     
     var hex: Hex {
         return Hex(row: self.row, column: self.column)
     }
-    init(row: Int, column: Int) {
+    init(row: Int, column: Int, color: GameColor) {
         self.row = row
         self.column = column
+        self.color = color
     }
 }
