@@ -19,7 +19,6 @@
 		2F4C8ECF24551A4E00AF5C0F /* GameColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C8ECE24551A4E00AF5C0F /* GameColor.swift */; };
 		2F4DA5A0245F6CBE000A937F /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA59F245F6CBE000A937F /* HelpView.swift */; };
 		2F4DA5A2245F7128000A937F /* TopScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5A1245F7128000A937F /* TopScoreView.swift */; };
-		2F4DA5A7245FB995000A937F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4DA5A6245FB995000A937F /* GameKit.framework */; };
 		2F4DA5AB2460A300000A937F /* CircleOnlyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5AA2460A300000A937F /* CircleOnlyView.swift */; };
 		2F4DA5AD2460A473000A937F /* CirclePreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5AC2460A473000A937F /* CirclePreView.swift */; };
 		2F4F1A0E245CD51F00A02881 /* CircleFadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4F1A0D245CD51F00A02881 /* CircleFadeView.swift */; };
@@ -86,7 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F4DA5A7245FB995000A937F /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

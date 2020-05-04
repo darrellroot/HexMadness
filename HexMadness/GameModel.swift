@@ -17,12 +17,12 @@ class GameModel: ObservableObject {
     let extraTestingCircles = 0 // to lose rapidly during testing
     
     let defaults = UserDefaults.standard
-    @Published var topScores: [Int: Int] = GameModel.getDictionary(key: DefaultKey.topScores.rawValue) { //UserDefaults.standard.object(forKey: DefaultKey.topScores.rawValue) as? [Int:Int] ?? [:] { // first int is time in seconds since reference time, second Int is score
+    @Published var topScores: [Int: Int] = GameModel.getDictionary(key: DefaultKey.topScores.rawValue) /*{ //UserDefaults.standard.object(forKey: DefaultKey.topScores.rawValue) as? [Int:Int] ?? [:] { // first int is time in seconds since reference time, second Int is score
         didSet {
             GameModel.saveDictionary(dict: topScores, key: DefaultKey.topScores.rawValue)
         }
-    }
-
+    }*/
+    
     @Published var nextTurnCircles: [GameColor] = []
     @Published var circles: [CircleModel]
     @Published var deletedCircles: [CircleModel] = []
@@ -40,25 +40,26 @@ class GameModel: ObservableObject {
     
     // from https://freakycoder.com/ios-notes-29-how-to-save-dictionary-in-userdefaults-1b9abd1bf09
     static func saveDictionary(dict: Dictionary<Int, Int>, key: String){
-         let preferences = UserDefaults.standard
-         let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: dict)
-         preferences.set(encodedData, forKey: key)
-         // Checking the preference is saved or not
-         //didSave(preferences: preferences)
+        let preferences = UserDefaults.standard
+        let encodedData: Data = try! NSKeyedArchiver.archivedData(withRootObject: dict, requiringSecureCoding: false)
+        //let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: dict)
+        preferences.set(encodedData, forKey: key)
+        // Checking the preference is saved or not
+        //didSave(preferences: preferences)
     }
     
     // from: https://freakycoder.com/ios-notes-29-how-to-save-dictionary-in-userdefaults-1b9abd1bf09
     static func getDictionary(key: String) -> Dictionary<Int, Int> {
-         let preferences = UserDefaults.standard
-         if preferences.object(forKey: key) != nil{
-         let decoded = preferences.object(forKey: key)  as! Data
-         let decodedDict = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! Dictionary<Int, Int>
-                
-         return decodedDict
-       } else {
-          let emptyDict = Dictionary<Int, Int>()
-          return emptyDict
-       }
+        let preferences = UserDefaults.standard
+        if preferences.object(forKey: key) != nil{
+            let decoded = preferences.object(forKey: key)  as! Data
+            let decodedOptionalDict: [Int:Int]? = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(decoded) as? Dictionary<Int,Int>
+            let decodedDict = decodedOptionalDict ?? [:]
+            return decodedDict
+        } else {
+            let emptyDict = Dictionary<Int, Int>()
+            return emptyDict
+        }
     }
     
     func updateTopScores() {
@@ -81,6 +82,7 @@ class GameModel: ObservableObject {
                 newTopScore = true
             }
         }
+        GameModel.saveDictionary(dict: topScores, key: DefaultKey.topScores.rawValue)
     }
     var responsive = true // set to false during move to prevent race condition
     
@@ -133,8 +135,8 @@ class GameModel: ObservableObject {
         }
         self.addCircles()
         /*for _ in 0 ..< 6 {
-            self.addCircle()
-        }*/
+         self.addCircle()
+         }*/
     }
     static func allAdjacent(row: Int, column: Int) -> Set<Hex> {
         var adjacentHexes: Set<Hex> = []
@@ -154,7 +156,7 @@ class GameModel: ObservableObject {
         var winningHexes: Set<Hex> = [pressedCircle.hex]
         var candidateHexes: Set<Hex> = [pressedCircle.hex]
         var analyzedHexes: Set<Hex> = [pressedCircle.hex]
-        let pressedHex = Hex(row: pressedCircle.row, column: pressedCircle.column)
+        //let pressedHex = Hex(row: pressedCircle.row, column: pressedCircle.column)
         while candidateHexes.count > 0 {
             let thisHex = candidateHexes.first!
             let adjacentHexes = thisHex.allAdjacent
@@ -271,7 +273,7 @@ class GameModel: ObservableObject {
         if let pressedCircle = pressedCircle, testForValidMove(row: row, column: column) {
             self.score += 1
             let path = getPath(startHex: pressedCircle.hex, endHex: Hex(row: row, column: column))
-            debugPrint(path)
+            //debugPrint(path)
             pressedCircle.path = path
             var totalDuration: Double
             self.responsive = false
@@ -300,8 +302,8 @@ class GameModel: ObservableObject {
                     // add circles
                     self.addCircles()
                     /*for _ in 0..<newCircles {
-                        self.addCircle()
-                    }*/
+                     self.addCircle()
+                     }*/
                     self.responsive = true
                 }
             }
@@ -332,11 +334,11 @@ class GameModel: ObservableObject {
         if lcolumn % 2 == 0 && rcolumn % 2 == 1 && lcolumn == rcolumn + 1 && lrow == rrow - 1 {
             return false
         }
-
+        
         if lcolumn % 2 == 0 && rcolumn % 2 == 1 && abs(lcolumn - rcolumn) == 1 && lrow - 1 == rrow {
             return true
         }
-
+        
         if lcolumn % 2 == 1 && rcolumn % 2 == 0 && abs(lcolumn - rcolumn) == 1 && lrow == rrow - 1 {
             return true
         }
@@ -375,7 +377,7 @@ class GameModel: ObservableObject {
             }
             let circle = CircleModel(row: row, column: column, color: nextColor)
             self.circles.append(circle)
-            self.testForWin(pressedCircle: circle)
+            let _ = self.testForWin(pressedCircle: circle)
         }
     }
     func gameOver() {
