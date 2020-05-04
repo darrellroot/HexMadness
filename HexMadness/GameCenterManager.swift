@@ -15,7 +15,7 @@ class GameCenterManager {
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
     var score = 0
-    let LEADERBOARD_ID = "HexLead" //Leaderboard ID from Itunes Connect
+    let LEADERBOARD_ID = "HexLead1" //Leaderboard ID from Itunes Connect
 
    // MARK: - AUTHENTICATE LOCAL PLAYER
    func authenticateLocalPlayer() {
