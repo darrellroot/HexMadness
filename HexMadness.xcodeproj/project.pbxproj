@@ -20,6 +20,8 @@
 		2F4DA5A0245F6CBE000A937F /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA59F245F6CBE000A937F /* HelpView.swift */; };
 		2F4DA5A2245F7128000A937F /* TopScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5A1245F7128000A937F /* TopScoreView.swift */; };
 		2F4DA5A7245FB995000A937F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4DA5A6245FB995000A937F /* GameKit.framework */; };
+		2F4DA5AB2460A300000A937F /* CircleOnlyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5AA2460A300000A937F /* CircleOnlyView.swift */; };
+		2F4DA5AD2460A473000A937F /* CirclePreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4DA5AC2460A473000A937F /* CirclePreView.swift */; };
 		2F4F1A0E245CD51F00A02881 /* CircleFadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4F1A0D245CD51F00A02881 /* CircleFadeView.swift */; };
 		2F99339C239D9EC60058290F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F99339B239D9EC60058290F /* AppDelegate.swift */; };
 		2F99339E239D9EC60058290F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F99339D239D9EC60058290F /* SceneDelegate.swift */; };
@@ -56,6 +58,8 @@
 		2F4DA5A3245FB8A8000A937F /* GameCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterView.swift; sourceTree = "<group>"; };
 		2F4DA5A6245FB995000A937F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2F4DA5A8245FBC2D000A937F /* GameCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterManager.swift; sourceTree = "<group>"; };
+		2F4DA5AA2460A300000A937F /* CircleOnlyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleOnlyView.swift; sourceTree = "<group>"; };
+		2F4DA5AC2460A473000A937F /* CirclePreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclePreView.swift; sourceTree = "<group>"; };
 		2F4F1A0D245CD51F00A02881 /* CircleFadeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleFadeView.swift; sourceTree = "<group>"; };
 		2F993398239D9EC60058290F /* HexMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F99339B239D9EC60058290F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,12 +144,14 @@
 				2F4C8ECA24529C7D00AF5C0F /* Hex.swift */,
 				2F9933B123A098DF0058290F /* CircleModel.swift */,
 				2F9933B523A0A1390058290F /* CircleView.swift */,
+				2F4DA5AA2460A300000A937F /* CircleOnlyView.swift */,
 				2F4F1A0D245CD51F00A02881 /* CircleFadeView.swift */,
 				2F4DA5A1245F7128000A937F /* TopScoreView.swift */,
 				2F4C8EC8245299A300AF5C0F /* HexView.swift */,
 				2F4C8ECC2455132B00AF5C0F /* GameModel.swift */,
 				2F4C8ECE24551A4E00AF5C0F /* GameColor.swift */,
 				2F4A44CF245779F800E6D790 /* ScreenView.swift */,
+				2F4DA5AC2460A473000A937F /* CirclePreView.swift */,
 				2F4DA5A3245FB8A8000A937F /* GameCenterView.swift */,
 				2F4DA5A8245FBC2D000A937F /* GameCenterManager.swift */,
 			);
@@ -275,6 +281,7 @@
 			files = (
 				2F4F1A0E245CD51F00A02881 /* CircleFadeView.swift in Sources */,
 				2F4DA5A0245F6CBE000A937F /* HelpView.swift in Sources */,
+				2F4DA5AD2460A473000A937F /* CirclePreView.swift in Sources */,
 				2F4C8EC9245299A300AF5C0F /* HexView.swift in Sources */,
 				2F9933B623A0A1390058290F /* CircleView.swift in Sources */,
 				2F9933B223A098DF0058290F /* CircleModel.swift in Sources */,
@@ -287,6 +294,7 @@
 				2F4C8ECF24551A4E00AF5C0F /* GameColor.swift in Sources */,
 				2F9933A0239D9EC60058290F /* ContentView.swift in Sources */,
 				2F4A44D0245779F800E6D790 /* ScreenView.swift in Sources */,
+				2F4DA5AB2460A300000A937F /* CircleOnlyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

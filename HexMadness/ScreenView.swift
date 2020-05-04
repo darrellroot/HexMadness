@@ -16,6 +16,7 @@ struct ScreenView: View {
             //Text("Score: \(gameModel.score)")
             GameView()
         }.navigationBarTitle("Score: \(gameModel.score)", displayMode: .inline)
+            .navigationBarItems(trailing: CirclePreView())
     }
 }
 
