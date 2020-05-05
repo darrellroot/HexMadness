@@ -353,6 +353,9 @@ class GameModel: ObservableObject {
         for _ in 0 ..< newCircles {
             nextTurnCircles.append(GameColor.allCases.randomElement()!)
         }
+        if circles.count == GameModel.rows * GameModel.columns {
+            gameOver()
+        }
     }
     func addCircle() {
         //try 1000 times to add a circle
