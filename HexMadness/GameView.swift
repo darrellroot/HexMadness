@@ -11,7 +11,7 @@ import SwiftUI
 struct GameView: View {
     
     @EnvironmentObject var gameModel: GameModel
-    
+    var startGame: Bool
     //@State var circles: [CircleModel] = []
     @State var hexes: [Hex] = []
     @State private var navigateTopScores = false
@@ -39,9 +39,15 @@ struct GameView: View {
                     self.hexes.append(Hex(row: row, column: column))
                 }
             }
-            self.gameModel.newGame()
+            if self.gameModel.gameComplete == true || self.startGame == true {
+                self.gameModel.newGame()
+            } else {
+                debugPrint("Trying to continue current game")
+            }
         }.alert(isPresented: $gameModel.gameComplete) {
-            Alert(title: Text("Game Over"), message: Text("You scored \(gameModel.score)"), primaryButton: .default(Text("New Game")),
+            Alert(title: Text("Game Over"), message: Text("You scored \(gameModel.score)"), primaryButton: .default(Text("New Game")) {
+                    self.gameModel.newGame()
+                },
                   secondaryButton: .default(Text("See Top Scores"))
                     {
                         self.navigateTopScores = true
@@ -53,6 +59,6 @@ struct GameView: View {
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView()
+        GameView(startGame: true)
     }
 }

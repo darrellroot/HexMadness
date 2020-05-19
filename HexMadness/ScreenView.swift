@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ScreenView: View {
     @EnvironmentObject var gameModel: GameModel
-
+    var startGame: Bool
     var body: some View {
         VStack {
             //Text("Score: \(gameModel.score)")
-            GameView()
+            GameView(startGame: startGame)
         }.navigationBarTitle("Score: \(gameModel.score)", displayMode: .inline)
             .navigationBarItems(trailing: CirclePreView())
     }
@@ -22,6 +22,6 @@ struct ScreenView: View {
 
 struct ScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView()
+        ScreenView(startGame: true)
     }
 }

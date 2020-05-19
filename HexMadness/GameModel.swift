@@ -29,9 +29,8 @@ class GameModel: ObservableObject {
     @Published var score: Int = 0
     @Published var gameComplete = false {
         didSet {
-            if self.gameComplete == false {
+            if self.gameComplete == true {
                 updateTopScores()
-                self.newGame()
             }
         }
     }
@@ -63,6 +62,7 @@ class GameModel: ObservableObject {
     }
     
     func updateTopScores() {
+        debugPrint("updating top score \(score)")
         let currentTime = Int(Date.timeIntervalSinceReferenceDate)
         if topScores.count < 10 {
             topScores[currentTime] = score
@@ -128,6 +128,7 @@ class GameModel: ObservableObject {
         circles = []
     }
     func newGame() {
+        self.gameComplete = false
         self.circles = []
         self.score = 0
         for _ in 0 ..< 6 {
@@ -344,7 +345,11 @@ class GameModel: ObservableObject {
     }
     func addCircles() {
         for _ in 0 ..< nextTurnCircles.count {
-            addCircle()
+            let added = addCircle()
+            if !added {
+                gameOver()
+                return
+            }
         }
         nextTurnCircles = []
         let newCircles = Int.random(in: 3 ..< (5 + score / 100 + extraTestingCircles)) 
@@ -353,9 +358,10 @@ class GameModel: ObservableObject {
         }
         if circles.count == GameModel.rows * GameModel.columns {
             gameOver()
+            return
         }
     }
-    func addCircle() {
+    func addCircle() -> Bool {
         //try 1000 times to add a circle
         // if that fails, we assume board is full and game over
         var row: Int = 0
@@ -369,9 +375,9 @@ class GameModel: ObservableObject {
                 break
             }
         }
-        var won = false
+        //var won = false
         if !added {
-            gameOver()
+            //gameOver()
         } else {
             let nextColor = nextTurnCircles.first ?? GameColor.allCases.randomElement()!
             if nextTurnCircles.count > 0 {
@@ -379,11 +385,12 @@ class GameModel: ObservableObject {
             }
             let circle = CircleModel(row: row, column: column, color: nextColor)
             self.circles.append(circle)
-            won = self.testForWin(pressedCircle: circle)
+            _ = self.testForWin(pressedCircle: circle)
         }
-        if circles.count == GameModel.rows * GameModel.columns && !won {
+        return added
+        /*if circles.count == GameModel.rows * GameModel.columns && !won {
             gameOver()
-        }
+        }*/
     }
     func gameOver() {
         debugPrint("Game Over")

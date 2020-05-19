@@ -24,7 +24,6 @@ struct HelpView: View {
             .navigationBarTitle(Text("How To Play"))
         }
         .padding()
-        .font(.headline)
     }
 }
 

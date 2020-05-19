@@ -16,7 +16,10 @@ struct ContentView: View {
         NavigationView {
             VStack(spacing: 20) {
                 Text("Hex Madness!").font(.largeTitle)
-                NavigationLink("New Game", destination: ScreenView()).font(.title)
+                NavigationLink("New Game", destination: ScreenView(startGame: true)).font(.title)
+                if gameModel.gameComplete == false && gameModel.score > 0 {
+                    NavigationLink("Continue Game", destination: ScreenView(startGame: false)).font(.title)
+                }
                 NavigationLink("How To Play", destination: HelpView()).font(.title)
                 NavigationLink("Top scores", destination: TopScoreView()).font(.title)
             }
