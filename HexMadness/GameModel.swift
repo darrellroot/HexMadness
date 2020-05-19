@@ -14,7 +14,7 @@ enum DefaultKey: String {
 }
 
 class GameModel: ObservableObject {
-    let extraTestingCircles = 0 // to lose rapidly during testing
+    let extraTestingCircles = 10 // to lose rapidly during testing
     
     let defaults = UserDefaults.standard
     @Published var topScores: [Int: Int] = GameModel.getDictionary(key: DefaultKey.topScores.rawValue) /*{ //UserDefaults.standard.object(forKey: DefaultKey.topScores.rawValue) as? [Int:Int] ?? [:] { // first int is time in seconds since reference time, second Int is score
@@ -177,13 +177,11 @@ class GameModel: ObservableObject {
         if winningCircles.count >= 6 {
             debugPrint("you won!")
             for circle in winningCircles {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if let index = self.circles.firstIndex(of: circle) {
-                        self.circles.remove(at: index)
-                    }
-                    self.deletedCircles.append(circle)
+                if let index = self.circles.firstIndex(of: circle) {
+                    self.circles.remove(at: index)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.deletedCircles.append(circle)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 /* + 0.5*/) {
                     self.deletedCircles.removeFirst()
                 }
                 self.score = self.score + 1
@@ -349,7 +347,7 @@ class GameModel: ObservableObject {
             addCircle()
         }
         nextTurnCircles = []
-        let newCircles = Int.random(in: 3..<5) + score / 100 + extraTestingCircles
+        let newCircles = Int.random(in: 3 ..< (5 + score / 100 + extraTestingCircles)) 
         for _ in 0 ..< newCircles {
             nextTurnCircles.append(GameColor.allCases.randomElement()!)
         }
@@ -371,7 +369,8 @@ class GameModel: ObservableObject {
                 break
             }
         }
-        if !added || circles.count == GameModel.rows * GameModel.columns {
+        var won = false
+        if !added {
             gameOver()
         } else {
             let nextColor = nextTurnCircles.first ?? GameColor.allCases.randomElement()!
@@ -380,7 +379,10 @@ class GameModel: ObservableObject {
             }
             let circle = CircleModel(row: row, column: column, color: nextColor)
             self.circles.append(circle)
-            let _ = self.testForWin(pressedCircle: circle)
+            won = self.testForWin(pressedCircle: circle)
+        }
+        if circles.count == GameModel.rows * GameModel.columns && !won {
+            gameOver()
         }
     }
     func gameOver() {
