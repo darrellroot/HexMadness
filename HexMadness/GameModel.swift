@@ -14,7 +14,7 @@ enum DefaultKey: String {
 }
 
 class GameModel: ObservableObject {
-    let extraTestingCircles = 10 // to lose rapidly during testing
+    let extraTestingCircles = 0 // to lose rapidly during testing
     
     let defaults = UserDefaults.standard
     @Published var topScores: [Int: Int] = GameModel.getDictionary(key: DefaultKey.topScores.rawValue) /*{ //UserDefaults.standard.object(forKey: DefaultKey.topScores.rawValue) as? [Int:Int] ?? [:] { // first int is time in seconds since reference time, second Int is score
