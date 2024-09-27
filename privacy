@@ -1,9 +1,0 @@
-The authors of HexMadness do not want your private information and do not collect your information
-using Hex Madness.
-
-Hex Madness does not harvest any customer information. The only outbound network connections it makes
-are to allow the player to submit their GameCenter alias and score to Apple GameCenter leaderboards,
-or to allow the player to submit an App Review (as of September 2024 the current version doesn't
-even make GameCenter connections, but we may add that feature)
-
-Hex Madness does not include any 3rd party or advertisement libraries or frameworks.
